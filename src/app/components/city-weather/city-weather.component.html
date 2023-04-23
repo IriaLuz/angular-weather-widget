@@ -1,34 +1,43 @@
-<form [formGroup]="locationGroup" novalidate>
-  <label for="city">City</label>
-  <input
-    formControlName="location"
-    type="text"
-    id="city"
-    name="city"
-    (input)="onSearchLocation($event, location.value)"
-    [required]="true"
-  />
-  <button type="submit" (click)="onSubmit($event, locationGroup)">
-    Add City
-  </button>
-</form>
-<div id="div-weather-main">
-  <div class="weather-widget-row">
-    <div *ngIf="WeatherData.isDay">
-      <i class="fas fa-3x fa-sun sun"></i>
+<div class="weather-elements-wrapper">
+  <form class="city-form" [formGroup]="locationGroup" novalidate>
+    <div class="input-group">
+      <input
+        formControlName="location"
+        type="text"
+        id="city"
+        name="city"
+        class="form-control"
+        (input)="onSearchLocation($event, location.value)"
+        [required]="true"
+        placeholder="Enter city name"
+      />
+      <button
+        type="submit"
+        class="btn btn-primary"
+        (click)="onSubmit($event, locationGroup)"
+      >
+        Add City
+      </button>
     </div>
-    <div *ngIf="!WeatherData.isDay">
-      <i class="fas fa-3x fa-moon moon"></i>
+  </form>
+  <div class="weather-info">
+    <div class="weather-widget-row">
+      <div *ngIf="WeatherData.isDay">
+        <i class="fas fa-3x fa-sun sun"></i>
+      </div>
+      <div *ngIf="!WeatherData.isDay">
+        <i class="fas fa-3x fa-moon moon"></i>
+      </div>
+      <div class="cloud-wrapper">
+        <i class="fas fa-cloud fa-3x cloud"></i>
+      </div>
+      <div class="temperature">{{ WeatherData.temp_celcius }}°</div>
+      <div>{{ WeatherData.temp_min }}° / {{ WeatherData.temp_max }}°</div>
+      <div>Feels Like: {{ WeatherData.temp_feels_like }}°</div>
+      <div class="city-name">
+        {{ WeatherData.name }}
+      </div>
+      <div>Humidity: {{ WeatherData.main.humidity }}%</div>
     </div>
-    <div class="cloud-wrapper">
-      <i class="fas fa-cloud fa-3x cloud"></i>
-    </div>
-    <div class="temperature">{{ WeatherData.temp_celcius }}°</div>
-    <div>{{ WeatherData.temp_min }}° / {{ WeatherData.temp_max }}°</div>
-    <div>Feels Like: {{ WeatherData.temp_feels_like }}°</div>
-    <div class="city-name">
-      {{ WeatherData.name }}
-    </div>
-    <div>Humidity: {{ WeatherData.main.humidity }}%</div>
   </div>
 </div>
