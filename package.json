@@ -11,7 +11,7 @@
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "lint": "ng lint",
-    "stylelint": "npx stylelint \"**/*.scss\""
+    "stylelint": "npx stylelint \"**/*.scss\" --fix"
   },
   "private": true,
   "dependencies": {
