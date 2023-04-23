@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { CityWeatherComponent } from './components/city-weather/city-weather.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppComponent, CityWeatherComponent],
+      imports: [HttpClientTestingModule, ReactiveFormsModule],
     }).compileComponents();
   });
 
@@ -15,7 +18,7 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'app-city-weather'`, () => {
+  it(`should have as title 'Weather widget'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('Weather widget');

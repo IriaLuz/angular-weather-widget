@@ -1,3 +1,17 @@
+<form [formGroup]="locationGroup" novalidate>
+  <label for="city">City</label>
+  <input
+    formControlName="location"
+    type="text"
+    id="city"
+    name="city"
+    (input)="onSearchLocation($event, location.value)"
+    [required]="true"
+  />
+  <button type="submit" (click)="onSubmit($event, locationGroup)">
+    Add City
+  </button>
+</form>
 <div id="div-weather-main">
   <div class="weather-widget-row">
     <div *ngIf="WeatherData.isDay">

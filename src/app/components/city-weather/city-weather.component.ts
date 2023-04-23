@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { FormControl, FormGroup } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-city-weather',
@@ -7,23 +10,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CityWeatherComponent implements OnInit {
   WeatherData: any;
+  cityWeather = 'London';
+  private searchStream = new Subject<string>();
+  public location = new FormControl();
+
+  constructor(private http: HttpClient) {}
+
+  locationGroup = new FormGroup({
+    location: new FormControl(),
+  });
 
   ngOnInit() {
+    this.getWeatherData(this.cityWeather);
     this.WeatherData = {
       main: {},
       isDay: true,
     };
-    this.getWeatherData();
+    this.getWeatherData(this.cityWeather);
     console.log(this.WeatherData);
   }
 
-  getWeatherData() {
-    fetch(
-      'https://api.openweathermap.org/data/2.5/weather?q=paris&appid=ff1bc4683fc7325e9c57e586c20cc03e'
-    )
-      .then((response) => response.json())
-      .then((data) => {
+  getWeatherData(city: string) {
+    this.http
+      .get<any>(
+        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=ff1bc4683fc7325e9c57e586c20cc03e`
+      )
+      .subscribe((data) => {
         this.setWeatherData(data);
+        console.log(this.WeatherData);
       });
   }
 
@@ -45,5 +59,15 @@ export class CityWeatherComponent implements OnInit {
     this.WeatherData.temp_feels_like = (
       this.WeatherData.main.feels_like - 273.15
     ).toFixed(0);
+  }
+
+  public onSubmit(e: Event, form: FormGroup) {
+    this.getWeatherData(form.value.location);
+  }
+
+  public onSearchLocation(event: Event, cityName: string) {
+    if (cityName && cityName.length > 0) {
+      this.searchStream.next(cityName);
+    }
   }
 }
