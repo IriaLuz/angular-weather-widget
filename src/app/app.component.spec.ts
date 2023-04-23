@@ -28,8 +28,8 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain(
-      'Weather widget app is running!'
+    expect(compiled.querySelector('.component-title')?.textContent).toContain(
+      'Check the weather of any city here!'
     );
   });
 });

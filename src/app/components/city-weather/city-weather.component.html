@@ -20,7 +20,7 @@
         (click)="onSubmit($event, locationGroup)"
         tabindex="0"
       >
-        Add City
+        Search
       </button>
     </div>
     <div *ngIf="location.invalid && (location.dirty || location.touched)">
@@ -38,7 +38,7 @@
       <div *ngIf="!WeatherData.isDay">
         <i class="fas fa-3x fa-moon moon" aria-label="Moon icon"></i>
       </div>
-      <div class="cloud-wrapper">
+      <div *ngIf="WeatherData.hasClouds" class="cloud-wrapper">
         <i class="fas fa-cloud fa-3x cloud" aria-label="Cloud icon"></i>
       </div>
       <div class="temperature">{{ WeatherData.temp_celcius }}°</div>

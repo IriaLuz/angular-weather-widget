@@ -26,9 +26,10 @@ export class CityWeatherComponent implements OnInit {
     this.WeatherData = {
       main: {},
       isDay: true,
+      clouds: {},
+      hasClouds: false,
     };
     this.getWeatherData(this.cityWeather);
-    console.log(this.WeatherData);
   }
 
   getWeatherData(city: string) {
@@ -39,7 +40,6 @@ export class CityWeatherComponent implements OnInit {
       .subscribe(
         (data) => {
           this.setWeatherData(data);
-          console.log(this.WeatherData);
         },
         (error) => {
           console.log('Error:', error);
@@ -51,9 +51,13 @@ export class CityWeatherComponent implements OnInit {
   setWeatherData(data: any) {
     this.WeatherData = data;
     const sunsetTime = new Date(this.WeatherData.sys.sunset * 1000);
+    const sunriseTime = new Date(this.WeatherData.sys.sunrise * 1000);
     this.WeatherData.sunset_time = sunsetTime.toLocaleTimeString();
+    this.WeatherData.hasClouds = this.WeatherData?.clouds?.all > 50;
     const currentDate = new Date();
-    this.WeatherData.isDay = currentDate.getTime() < sunsetTime.getTime();
+    this.WeatherData.isDay =
+      currentDate.getTime() < sunsetTime.getTime() &&
+      currentDate.getTime() > sunriseTime.getTime();
     this.WeatherData.temp_celcius = (
       this.WeatherData.main.temp - 273.15
     ).toFixed(0);

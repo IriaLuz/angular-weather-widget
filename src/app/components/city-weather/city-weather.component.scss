@@ -71,9 +71,11 @@
     margin-left: 65px;
   }
 }
+
 .city-form {
   .input-group {
     position: relative;
+    margin-bottom: 1rem;
   }
 
   input[type="text"] {
@@ -110,6 +112,9 @@
   input[type="text"]::placeholder {
     color: #a9a9a9;
     font-size: 1rem;
+  }
+  input:focus {
+    outline: none;
   }
 }
 
