@@ -13,6 +13,7 @@ export class CityWeatherComponent implements OnInit {
   cityWeather = 'London';
   private searchStream = new Subject<string>();
   public location = new FormControl();
+  errorMessage = '';
 
   constructor(private http: HttpClient) {}
 
@@ -35,10 +36,16 @@ export class CityWeatherComponent implements OnInit {
       .get<any>(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=ff1bc4683fc7325e9c57e586c20cc03e`
       )
-      .subscribe((data) => {
-        this.setWeatherData(data);
-        console.log(this.WeatherData);
-      });
+      .subscribe(
+        (data) => {
+          this.setWeatherData(data);
+          console.log(this.WeatherData);
+        },
+        (error) => {
+          console.log('Error:', error);
+          this.errorMessage = `Please add an existing city `;
+        }
+      );
   }
 
   setWeatherData(data: any) {
@@ -63,6 +70,8 @@ export class CityWeatherComponent implements OnInit {
 
   public onSubmit(e: Event, form: FormGroup) {
     this.getWeatherData(form.value.location);
+    form.reset();
+    this.errorMessage = '';
   }
 
   public onSearchLocation(event: Event, cityName: string) {
