@@ -1,6 +1,7 @@
 # Weather Widget
 
-This project is an Angular weather widget that allows users to search for the current weather of a specific city by typing its name.
+This is an Angular weather widget that allows users to search for the current weather of a specific city by typing its name. The app fetches weather data using OpenWeatherMap API and displays it in a user-friendly interface.
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.6.
 
 ##Getting Started
@@ -40,3 +41,7 @@ This project was built with the following technologies:
 - HTML
 - SCSS
 - TypeScript
+
+## Contributions
+
+Contributions to this project are welcome. If you find any issues or have suggestions for improvements, please create an issue or submit a pull request.

@@ -13,12 +13,14 @@
         [required]="true"
         placeholder="Enter city name"
         aria-label="Enter city name"
+        data-cy="cityName"
       />
       <button
         type="submit"
         class="btn btn-primary"
         (click)="onSubmit($event, locationGroup)"
         tabindex="0"
+        data-cy="submitCity"
       >
         Search
       </button>
@@ -30,7 +32,12 @@
     </div>
   </form>
 
-  <div class="weather-info" role="region" aria-live="polite">
+  <div
+    data-cy="weatherDisplay"
+    class="weather-info"
+    role="region"
+    aria-live="polite"
+  >
     <div class="weather-widget-row">
       <div *ngIf="WeatherData.isDay">
         <i class="fas fa-3x fa-sun sun" aria-label="Sun icon"></i>
