@@ -1,14 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup } from '@angular/forms';
-import {
-  Observable,
-  Subject,
-  catchError,
-  takeUntil,
-  tap,
-  throwError,
-} from 'rxjs';
+import { Observable, Subject, catchError, takeUntil, throwError } from 'rxjs';
 import { WeatherApiResponse } from 'src/app/types/weatherApiResponse';
 import { WeatherData } from 'src/app/types/weatherData';
 
@@ -47,7 +40,6 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
 
   onGetWeatherData(cityWeather: string): void {
     this.getWeatherData(cityWeather)
-      .pipe(tap((response) => console.log(response)))
       .pipe(takeUntil(this.destroy$))
       .subscribe((weatherData) => {
         this.setWeatherData(weatherData),
@@ -58,7 +50,6 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
   getWeatherData(city: string): Observable<WeatherApiResponse> {
     return this.http
       .get<WeatherApiResponse>(
-        // `${this.apiURl}/weather?q=${city}&appid=${this.apiKey}`
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=ff1bc4683fc7325e9c57e586c20cc03e`
       )
       .pipe(catchError((error) => this.handleError(error)));
