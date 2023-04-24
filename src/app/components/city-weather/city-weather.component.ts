@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subject, catchError, takeUntil, throwError } from 'rxjs';
+import { WeatherApiResponse } from 'src/app/types/weatherApiResponse';
+import { WeatherData } from 'src/app/types/weatherData';
 
 @Component({
   selector: 'app-city-weather',
@@ -9,7 +11,7 @@ import { Observable, Subject, catchError, takeUntil, throwError } from 'rxjs';
   styleUrls: ['./city-weather.component.scss'],
 })
 export class CityWeatherComponent implements OnInit, OnDestroy {
-  WeatherData: any;
+  WeatherData!: WeatherData;
   cityWeather = 'London';
   private searchStream = new Subject<string>();
   public location = new FormControl();
@@ -24,10 +26,14 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.WeatherData = {
-      main: {},
-      isDay: true,
-      clouds: {},
+      name: '',
+      humidity: 0,
       hasClouds: false,
+      isDay: false,
+      temp_celcius: '',
+      temp_min: '',
+      temp_max: '',
+      temp_feels_like: '',
     };
     this.onGetWeatherData(this.cityWeather);
   }
@@ -41,9 +47,9 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
       });
   }
 
-  getWeatherData(city: string): Observable<any> {
+  getWeatherData(city: string): Observable<WeatherApiResponse> {
     return this.http
-      .get<any>(
+      .get<WeatherApiResponse>(
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=ff1bc4683fc7325e9c57e586c20cc03e`
       )
       .pipe(catchError((error) => this.handleError(error)));
@@ -56,34 +62,33 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
     return throwError(() => new Error(errorResponseMessage));
   }
 
-  setWeatherData(data: any) {
-    this.WeatherData = data;
-    const sunsetTime = new Date(this.WeatherData.sys.sunset * 1000);
-    const sunriseTime = new Date(this.WeatherData.sys.sunrise * 1000);
-    this.WeatherData.sunset_time = sunsetTime.toLocaleTimeString();
-    this.WeatherData.hasClouds = this.WeatherData?.clouds?.all > 50;
+  setWeatherData(data: WeatherApiResponse) {
+    this.WeatherData.name = data.name;
+    this.WeatherData.humidity = data.main.humidity;
+    const sunsetTime = new Date(data.sys.sunset * 1000);
+    const sunriseTime = new Date(data.sys.sunrise * 1000);
+    this.WeatherData.hasClouds = data?.clouds?.all > 50;
     const currentDate = new Date();
     this.WeatherData.isDay =
       currentDate.getTime() < sunsetTime.getTime() &&
       currentDate.getTime() > sunriseTime.getTime();
-    this.WeatherData.temp_celcius = (
-      this.WeatherData.main.temp - 273.15
-    ).toFixed(0);
-    this.WeatherData.temp_min = (
-      this.WeatherData.main.temp_min - 273.15
-    ).toFixed(0);
-    this.WeatherData.temp_max = (
-      this.WeatherData.main.temp_max - 273.15
-    ).toFixed(0);
-    this.WeatherData.temp_feels_like = (
-      this.WeatherData.main.feels_like - 273.15
-    ).toFixed(0);
+    this.WeatherData.temp_celcius = (data.main.temp - 273.15).toFixed(0);
+    this.WeatherData.temp_min = (data.main.temp_min - 273.15).toFixed(0);
+    this.WeatherData.temp_max = (data.main.temp_max - 273.15).toFixed(0);
+    this.WeatherData.temp_feels_like = (data.main.feels_like - 273.15).toFixed(
+      0
+    );
   }
 
   public onSubmit(e: Event, form: FormGroup) {
-    this.onGetWeatherData(form.value.location);
+    if (form.value.location !== null) {
+      this.onGetWeatherData(form.value.location);
+      form.reset();
+      this.errorMessage = '';
+    } else {
+      this.errorMessage = 'The field cant be empty';
+    }
     form.reset();
-    this.errorMessage = '';
   }
 
   public onSearchLocation(event: Event, cityName: string) {
