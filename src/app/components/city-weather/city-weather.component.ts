@@ -4,6 +4,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subject, catchError, takeUntil, throwError } from 'rxjs';
 import { WeatherApiResponse } from 'src/app/types/weatherApiResponse';
 import { WeatherData } from 'src/app/types/weatherData';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-city-weather',
@@ -17,6 +18,8 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
   public location = new FormControl();
   errorMessage = '';
   destroy$ = new Subject<void>();
+  private apiURl = environment.apiURL;
+  private apiKey = environment.apiURL;
 
   constructor(private http: HttpClient) {}
 
@@ -50,6 +53,7 @@ export class CityWeatherComponent implements OnInit, OnDestroy {
   getWeatherData(city: string): Observable<WeatherApiResponse> {
     return this.http
       .get<WeatherApiResponse>(
+        // `${this.apiURl}/weather?q=${city}&appid=${this.apiKey}`
         `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=ff1bc4683fc7325e9c57e586c20cc03e`
       )
       .pipe(catchError((error) => this.handleError(error)));

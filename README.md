@@ -1,27 +1,42 @@
-# AngularWeatherWidget
+# Weather Widget
 
+This project is an Angular weather widget that allows users to search for the current weather of a specific city by typing its name.
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.6.
 
-## Development server
+##Getting Started
+To get started with this project, follow these steps:
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1.Run npm install to install all the necessary dependencies.
+2.Run npm start to launch the development server.
+3.Navigate to http://localhost:4200/ to view the app in your browser.
 
-## Code scaffolding
+## Usage
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+To use the widget, simply enter the name of a city into the search input and press enter. The widget will display the current weather conditions for that city, including temperature in Celsius, humidity, feels like, and more. The default city is London.
 
-## Build
+## Scripts
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+This project includes the following scripts:
 
-## Running unit tests
+- ng: the Angular CLI command.
+- start: launches the development server.
+- build: builds the project.
+- watch: builds the project and watches for changes.
+- test: runs unit tests.
+- e2e: runs end-to-end tests.
+- cypress:open: opens the Cypress test runner.
+- cypress:run: runs the Cypress tests in headless mode.
+- lint: runs the linting tool.
+- stylelint: runs the style linter.
+- test:ci: runs the unit tests in headless mode for continuous integration.
+- tsc: compiles TypeScript files.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Technologies used
 
-## Running end-to-end tests
+This project was built with the following technologies:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- Angular
+- OpenWeatherMap API
+- HTML
+- SCSS
+- TypeScript
